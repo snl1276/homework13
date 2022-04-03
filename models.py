@@ -1,6 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-
 from db import Base
 
 
@@ -12,6 +11,7 @@ class User(Base):
     fullname = Column(String)
 
     addresses = relationship("Address", back_populates="user")
+    gender_agees = relationship("Gender_age", back_populates="user")
 
     def __repr__(self):
         return (f"User("
@@ -33,5 +33,20 @@ class Address(Base):
 
     def __repr__(self):
         return f"Address(id={self.id!r}, email_address={self.email_address!r})"
+
+    __str__ = __repr__
+
+
+class Gender_age(Base):
+    __tablename__ = 'gender_age'
+
+    id = Column(Integer, primary_key=True)
+    gender = Column(String)
+    age = Column(Integer)
+
+    user = relationship("User", back_populates="gender_agees")
+
+    def __repr__(self):
+        return f"Gender_age(id={self.id!r}, gender={self.gender!r}, age={self.age!r})"
 
     __str__ = __repr__
